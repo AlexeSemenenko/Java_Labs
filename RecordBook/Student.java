@@ -1,28 +1,24 @@
 package com.company;
 
+import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
-public class Student implements Comparable<Student> {
-    public String name;
-    public int id;
-    public List<Session> sessions;
+public class Student implements Serializable {
+    String firstName;
+    String lastName;
+    int id;
+    List<Session> sessions;
+    private transient double averageMark;
 
-    @Override
-    public int compareTo(Student otherStudent) {
-        return this.name.compareTo(otherStudent.name) != 0 ?
-                this.name.compareTo(otherStudent.name) : this.id - otherStudent.id;
-    }
-
-    public double averageMark(){
-        int result = 0;
+    public double getAverageMark() {
+        int sum = 0;
         int count = 0;
-        for(Session session : sessions){
-            for(Map.Entry<Subjects, Integer> subject : session.subjects.entrySet()){
-                result += subject.getValue();
-                count++;
-            }
+        for(Session session : this.sessions) {
+            Pair<Integer, Integer> statics = session.getStatics();
+            sum += statics.first;
+            count += statics.second;
         }
-        return (double)result / count;
+        return (double)sum / count;
     }
 }
