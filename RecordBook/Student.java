@@ -1,24 +1,45 @@
-package com.company;
-
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.List;
 
-public class Student implements Serializable {
-    String firstName;
-    String lastName;
-    int id;
-    List<Session> sessions;
-    private transient double averageMark;
+public class Student implements Comparable<Student>, Serializable {
+    private static int amountOfStudent;
 
-    public double getAverageMark() {
-        int sum = 0;
-        int count = 0;
-        for(Session session : this.sessions) {
-            Pair<Integer, Integer> statics = session.getStatics();
-            sum += statics.first;
-            count += statics.second;
+    public String name;
+    public int id;
+    public List<Session> sessions;
+
+    public Student(String name) {
+        this.name = name;
+        this.id = amountOfStudent;
+        amountOfStudent++;
+    }
+
+    @Override
+    public int compareTo(Student otherStudent) {
+        if (name.compareTo(otherStudent.name) != 0){
+            return name.compareTo(otherStudent.name);
+        } else{
+            return id - otherStudent.id;
         }
-        return (double)sum / count;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        result.append(name + "\t").append(id + "\t").append(this.averageMark() + "\n");
+        return result.toString();
+    }
+
+    public double averageMark() {
+        double sum = 0;
+        int numberOfMarks = 0;
+
+        for (Session session : sessions) {
+            Pair<Integer, Integer> statistics = session.getStatistics();
+            sum += statistics.first;
+            numberOfMarks += statistics.second;
+        }
+
+        return (double) sum / numberOfMarks;
     }
 }
