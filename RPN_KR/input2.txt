@@ -1,0 +1,5 @@
+a = truE
+b = fAlse
+c = trUe
+d =    falSE
+

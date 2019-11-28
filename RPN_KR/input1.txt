@@ -1,0 +1,4 @@
+a oR b and c or a;
+b anD c;
+b OR a;
+d AND d;
